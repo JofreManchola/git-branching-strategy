@@ -410,6 +410,111 @@
             </textarea>
           </section>
         </section>
+
+        <!-- New strategy -->
+        <section>
+          <section>
+            <h3>New strategy</h3>
+            <div class="mermaid">
+              <pre>
+                %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                gitGraph
+                commit
+                branch development
+                commit
+                branch QA
+                commit
+                branch staging
+                commit
+                checkout development
+                commit
+                commit
+                commit
+                checkout QA
+                merge development
+                checkout staging
+                merge QA
+                checkout main
+                merge staging
+                commit
+                branch bugfix/fix1
+                commit
+                commit
+                checkout development
+                merge bugfix/fix1
+                checkout QA
+                merge bugfix/fix1
+                checkout staging
+                merge bugfix/fix1
+                checkout main
+                merge bugfix/fix1
+                <!-- commit
+                checkout main
+                merge staging
+                checkout QA
+                merge staging
+                checkout development
+                merge QA -->
+              </pre>
+            </div>
+          </section>
+          <section>
+            <h3>New strategy</h3>
+            <div class="mermaid">
+              <pre>
+                %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                gitGraph
+                commit
+                branch development
+                commit
+                branch QA
+                commit
+                branch staging
+                commit
+                checkout development
+                commit
+                commit
+                commit
+                checkout QA
+                merge development
+                checkout staging
+                merge QA
+                checkout main
+                <!-- merge staging -->
+                commit
+                branch bugfix/fix1
+                commit
+                commit
+                branch bugfix/fix1-release
+                merge development
+                checkout development
+                merge bugfix/fix1-release
+                checkout QA
+                merge bugfix/fix1-release
+                checkout staging
+                merge bugfix/fix1-release
+                checkout main
+                merge bugfix/fix1-release
+                <!-- branch bugfix/fix1-release
+                checkout branch bugfix/fix1-release -->
+                <!-- commit
+                checkout main
+                merge staging
+                checkout QA
+                merge staging
+                checkout development
+                merge QA -->
+              </pre>
+            </div>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Conclusions
+              ...
+            </textarea>
+          </section>
+        </section>
+
         <!-- Further information -->
         <section>
           <section data-markdown>
