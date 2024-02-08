@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+
+    <title>GIT branching strategy</title>
+
+    <link rel="stylesheet" href="dist/reset.css" />
+    <link rel="stylesheet" href="dist/reveal.css" />
+    <link rel="stylesheet" href="dist/theme/black.css" />
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css" />
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- Intro -->
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+            # Branching strategy in Git
+            ---
+            Branching strategy in Git refers to the approach a team or individual takes to manage different lines of development within a Git repository. It involves creating, merging, and organizing branches to facilitate collaboration, parallel development, and the integration of new features or fixes into a codebase. There are several common branching strategies, each with its own benefits and use cases
+            </textarea>
+          </section>
+        </section>
+        <!-- Branching strategy list -->
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Branching strategy in Git
+              - Trunk-Based Development
+              - Feature Branching
+                - Gitflow
+                - GitHub Flow
+              - Environment branches
+              - Release Branching
+              - Forking strategy
+            </textarea>
+          </section>
+        </section>
+        <!-- Trunk-Based Development -->
+        <section>
+          <section>
+            <h3>Trunk-Based Development</h3>
+            <div class="mermaid">
+              <pre>
+                %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                gitGraph
+                commit
+                commit
+                branch feature/small-branch-1
+                branch feature/small-branch-2
+                checkout feature/small-branch-1
+                commit
+                commit
+                checkout main
+                merge feature/small-branch-1
+                checkout main
+                checkout feature/small-branch-2
+                commit
+                commit
+                checkout main
+                merge feature/small-branch-2
+                branch feature/small-branch-3
+                checkout feature/small-branch-3
+                commit
+                commit
+                checkout main
+                merge feature/small-branch-3
+              </pre>
+            </div>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Trunk-Based Development
+              In this strategy, development happens directly on the main branch (often called trunk), without long-lived feature branches. Developers work on small, incremental changes and commit them directly to the main branch. Continuous Integration and automated testing play a crucial role in ensuring the stability of the trunk.
+              ---
+              ## Features
+              - Single branch
+              - No long-lived branches
+              - Small and incremental changes
+              - Automated testing
+              - Continuous Integration
+              >- _(No branches, No PRs)_
+              >- _(No merging)_
+              >- _(No maintainance)_
+              ---
+              ## When to use it
+              - Excelent test code coverage
+              - High team maturity
+              - Feature flags
+              - _Strong automation CI/CD_
+            </textarea>
+          </section>
+        </section>
+        <!-- Feature Branching -->
+        <section>
+          <section>
+            <h3>Feature Branching</h3>
+            <div class="mermaid">
+              <pre>
+                %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                gitGraph
+                commit
+                commit
+                branch feature/branch-1
+                branch feature/branch-2
+                checkout feature/branch-1
+                commit
+                branch feature/branch-1.1
+                checkout feature/branch-1.1
+                commit
+                checkout feature/branch-1
+                commit
+                checkout main
+                merge feature/branch-1
+                checkout feature/branch-1.1
+                commit
+                checkout main
+                merge feature/branch-1.1
+                checkout feature/branch-2
+                commit
+                commit
+                checkout main
+                merge feature/branch-2
+                branch feature/branch-3
+                checkout feature/branch-3
+                commit
+                commit
+                checkout main
+                merge feature/branch-3
+              </pre>
+            </div>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Feature Branching
+              In this strategy, each new feature or task is developed in its own branch. Developers work independently on their features without interfering with the main codebase. Once the feature is completed, it's merged back into the main branch (often **master** or **main**).
+              ---
+              ## Features
+              - One branch per feature
+              - Short delivery cycle
+              - CI/CD
+              - Pull requests
+              ---
+              ## When to use it
+              - Small applications
+              - Able to split the work in smal chuncks that can be done independently
+            </textarea>
+          </section>
+        </section>
+        <!-- Gitflow -->
+        <section data-visibility="hidden">
+          <section>
+            <h3>Gitflow</h3>
+            <div class="mermaid">
+              <pre>
+                %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                gitGraph
+                commit
+                branch develop
+                checkout develop
+                <!-- tag v1.0 -->
+                branch feature/branch-1
+                checkout feature/branch-1
+                commit
+                commit
+                checkout develop
+                merge feature/branch-1
+                branch feature/branch-2
+                checkout feature/branch-2
+                commit
+                commit
+                checkout develop
+                merge feature/branch-2
+                branch release/v1.0
+                checkout release/v1.0
+                commit
+                commit
+                checkout main
+                merge release/v1.0 tag: "v1.0"
+              </pre>
+            </div>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Gitflow
+              Gitflow is a branching model that defines a strict branching structure. It involves two main branches: **`master`** and **`develop`**. New features are developed in separate branches based on **`develop`**, and when completed, they are merged back into **`develop`**. Periodically, develop is merged into **`master`** to release stable versions.
+              ---
+              ## Features
+              - The main branch is the reflection of production
+              - Branches, branches, and more branches
+            </textarea>
+          </section>
+        </section>
+        <!-- GitHub Flow -->
+        <section data-visibility="hidden">
+          <section>
+            <h3>GitHub Flow</h3>
+            <div class="mermaid">
+              <pre>
+                %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                gitGraph
+                commit
+                commit
+                branch feature
+                checkout feature
+                commit
+                commit
+                checkout main
+                merge feature
+                commit
+              </pre>
+            </div>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## GitHub Flow
+              This is a simpler branching model than Gitflow. It typically involves just one main branch (main), where all development happens. Developers create feature branches from main, work on them, and then merge them back into main via pull requests. Continuous Integration/Continuous Deployment (CI/CD) processes are often employed to ensure the stability of the main branch.
+            </textarea>
+          </section>
+        </section>
+        <!-- Environment branching -->
+        <section>
+          <section>
+            <h3>Environment branching</h3>
+            <div class="mermaid">
+              <pre>
+                %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                gitGraph
+                commit
+                branch development
+                commit
+                branch QA
+                commit
+                branch staging
+                commit
+                checkout development
+                commit
+                commit
+                commit
+                checkout QA
+                merge development
+                checkout staging
+                merge QA
+                checkout main
+                merge staging
+                commit
+                branch bugfix/fix1
+                commit
+                commit
+                checkout main
+                merge bugfix/fix1
+                commit
+                checkout staging
+                merge main
+                checkout QA
+                merge staging
+                checkout development
+                merge QA
+              </pre>
+            </div>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Environment branching
+              Environment branching is a branching strategy used in software development to manage different environments where code is deployed, such as development, staging, and production environments. This strategy involves creating separate branches for each environment to isolate changes specific to that environment and control the deployment process.
+              ---
+              ## Features
+              - The main branch is the reflection of production
+              - One branch per environment
+              - Hotfixes and maintenance
+              - Isolation environments
+              - Controlled Deployment Process
+              - Bug risk mitigation
+            </textarea>
+          </section>
+        </section>
+        <!-- Release Branching -->
+        <section>
+          <section>
+            <h3>Release Branching</h3>
+            <div class="mermaid">
+              <pre>
+                %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                gitGraph
+                commit
+                commit
+                commit
+                branch release/v1.0
+                checkout release/v1.0
+                commit
+                commit
+                commit
+                checkout main
+                branch release/v2.0
+                checkout release/v2.0
+                commit
+                checkout main
+                commit
+                checkout release/v1.0
+                commit
+                checkout main
+                merge release/v1.0 tag: "v1.0"
+                commit
+                checkout release/v1.0
+                commit
+                checkout release/v2.0
+                merge main
+              </pre>
+            </div>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Release Branching
+              In this strategy, a separate branch is created for each release version. Once a release is stabilized, bug fixes can be applied to the release branch, while development continues on the main branch.
+              ---
+              ## Features
+              - One branch per release
+              - Low frecuency deployments
+              - Support for previous releases
+              ---
+              ## When to use
+              - When maintain backwads compatibility is a must
+            </textarea>
+          </section>
+        </section>
+        <!-- Forking strategy -->
+        <section>
+          <section>
+            <h3>Forking strategy</h3>
+            <div class="mermaid">
+              <pre>
+                %%{init: {'theme': 'dark', 'themeVariables': { 'darkMode': true }}}%%
+                gitGraph
+                commit
+                commit
+                commit
+                commit
+                branch fork/main/user1/main
+                branch fork/main/user2/main
+                checkout fork/main/user1/main
+                commit
+                commit
+                checkout fork/main/user2/main
+                commit
+                commit
+                checkout main
+                merge fork/main/user2/main
+                checkout fork/main/user1/main
+                commit
+                checkout main
+                merge fork/main/user1/main
+              </pre>
+            </div>
+          </section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Forking strategy
+              The forking strategy in Git is a method for collaboration and contribution in which contributors create their own copy (fork) of a repository. This strategy is commonly used in open-source projects and facilitates a workflow where contributors can propose changes without directly altering the original repository.
+              ---
+              ## Features
+              - Mostly used in open source
+              - Isolation
+              - Permision control
+              - Comunity engagement
+              - Pull requests
+              ---
+              ## When to use
+              - When working in an open-source project
+            </textarea>
+          </section>
+        </section>
+
+        <!-- How to choice -->
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ### How to choice a branching strategy
+              - Team size
+              - Team structure
+              - Project complexity
+              - Release cadence (frequency of deployments)
+              - Deployment practices
+              - Test coverage
+
+              _It's important to choose a strategy that fits the specific needs and workflows of the development team._
+            </textarea>
+          </section>
+        </section>
+        <!-- Further information -->
+        <section>
+          <section data-markdown>
+            <textarea data-template>
+              ## Further information
+              - https://www.youtube.com/watch?v=U_IFGpJDbeU
+            </textarea>
+          </section>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+
+    <!-- https://github.com/zjffun/reveal.js-mermaid-plugin -->
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@2.1.0/plugin/mermaid/mermaid.js"></script>
+
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes, RevealMermaid],
+      });
+    </script>
+  </body>
+</html>
